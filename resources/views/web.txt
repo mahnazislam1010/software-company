@@ -1,0 +1,55 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['as'=>'admin.','prefix'=>'admin','namespace'=>'Admin','middleware'=>['auth','admin']],function (){
+    Route::get('dashboard', 'DashboardController@index')->name('dashboard');
+
+    Route::get('logo/name', 'LogoNameController@index')->name('logo.name');
+    Route::post('logo/name/update', 'LogoNameController@update')->name('logo.name.update');
+
+    Route::get('slider', 'SliderController@index')->name('slider');
+    Route::post('slider/update', 'SliderController@update')->name('slider.update');
+
+
+    Route::get('module', 'ModuleController@index')->name('module');
+    Route::post('module/update', 'ModuleController@update')->name('module.update');
+
+    Route::get('partner', 'PartnerController@index')->name('partner');
+    Route::post('partner/update', 'PartnerController@update')->name('partner.update');
+
+    Route::get('about-us', 'AboutUsController@index')->name('about-us');
+    Route::post('about-us/update', 'AboutUsController@update')->name('about-us.update');
+
+    Route::get('team', 'TeamController@index')->name('team');
+    Route::post('team/update', 'TeamController@update')->name('team.update');
+
+    Route::get('advisory', 'AdvisoryController@index')->name('advisory');
+    Route::post('advisory/update', 'AdvisoryController@update')->name('advisory.update');
+
+    Route::get('client-comment', 'ClientCommentController@index')->name('client-comment');
+    Route::post('client-comment/update', 'ClientCommentController@update')->name('client-comment.update');
+
+    Route::get('contact', 'ContactController@index')->name('contact');
+    Route::post('contact/update', 'ContactController@update')->name('contact.update');
+
+    Route::get('contact-information', 'ContactInformationController@index')->name('contact-information');
+    Route::get('contact-information/update', 'ContactInformationController@update')->name('contact-information.update');
+
+});

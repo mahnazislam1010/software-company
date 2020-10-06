@@ -1,0 +1,183 @@
+@extends('layouts.backend.app')
+
+@section('title','Slider')
+
+@push('css')
+    <style>
+    .imagePreview {
+    width: 100%;
+    height: 180px;
+    background-position: center center;
+    background:url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+    background-color:#fff;
+    background-size: cover;
+    background-repeat:no-repeat;
+    display: inline-block;
+    box-shadow:0px -3px 6px 2px rgba(0,0,0,0.2);
+    }
+    .btn-primary
+    {
+    display:block;
+    border-radius:0px;
+    box-shadow:0px 4px 6px 2px rgba(0,0,0,0.2);
+    margin-top:-5px;
+    }
+    .imgUp
+    {
+    margin-bottom:15px;
+    }
+    .del
+    {
+    position:absolute;
+    top:0px;
+    right:15px;
+    width:30px;
+    height:30px;
+    text-align:center;
+    line-height:30px;
+    background-color:rgba(255,255,255,0.6);
+    cursor:pointer;
+    }
+    .imgAdd
+    {
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background-color:#4bd7ef;
+    color:#fff;
+    box-shadow:0px 0px 2px 1px rgba(0,0,0,0.2);
+    text-align:center;
+    line-height:30px;
+    margin-top:0px;
+    cursor:pointer;
+    font-size:15px;
+    }
+    </style>
+@endpush
+@section('content')
+
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>Slider</h2>
+        </div>
+        <div class="card">
+            <div class="header">
+                <h2>
+                    SLIDER
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);">Action</a></li>
+                            <li><a href="javascript:void(0);">Another action</a></li>
+                            <li><a href="javascript:void(0);">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <form action="{{route('admin.slider.update')}}" id="frmFileUpload" class="dropzone" method="post" enctype="multipart/form-data">
+                @csrf
+                @method('POST')
+                <div class="row clearfix">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                        <label for="email_address_2">Title</label>
+                    </div>
+                    <input type="hidden" name="slider_id" value="{{$slider->id}}">
+                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input type="text" value="{{$slider->title}}" id="email_address_2" name="title" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                        <label for="email_address_2">Description</label>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <textarea rows="4" name="description" class="form-control no-resize">{{$slider->description}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                        <label for="email_address_2">Current Image</label>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <img src="{{asset('public/storage/slider/'.$slider->image)}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- File Upload | Drag & Drop OR With Click & Choose -->
+                <div class="row clearfix">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                        <label for="email_address_2">Image</label>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                        <div class="card">
+
+                            <br><div class="container">
+                                <div class="row">
+                                    <div class="col-sm-2 imgUp">
+                                        <div class="imagePreview"></div>
+                                        <label class="btn btn-primary">
+                                            Upload<input type="file" name="image" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
+                                        </label>
+                                    </div><!-- col-2 -->
+                                    <i class="fa fa-plus imgAdd"></i>
+                                </div><!-- row -->
+                            </div><!-- container -->
+                        </div>
+                    </div>
+                    <!-- #END# File Upload | Drag & Drop OR With Click & Choose -->
+                    <div class="pull-right">
+                        <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+@endsection
+
+@push('js')
+    <script>
+    $(".imgAdd").click(function(){
+    $(this).closest(".row").find('.imgAdd').before('<div class="col-sm-2 imgUp"><div class="imagePreview"></div><label class="btn btn-primary">Upload<input type="file" class="uploadFile img" value="Upload Photo" style="width:0px;height:0px;overflow:hidden;"></label><i class="fa fa-times del"></i></div>');
+    });
+    $(document).on("click", "i.del" , function() {
+    $(this).parent().remove();
+    });
+    $(function() {
+    $(document).on("change",".uploadFile", function()
+    {
+    var uploadFile = $(this);
+    var files = !!this.files ? this.files : [];
+    if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+    if (/^image/.test( files[0].type)){ // only image file
+    var reader = new FileReader(); // instance of the FileReader
+    reader.readAsDataURL(files[0]); // read the local file
+
+    reader.onloadend = function(){ // set image data as background of div
+    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url("+this.result+")");
+    }
+    }
+
+    });
+    });
+    </script>
+@endpush
+

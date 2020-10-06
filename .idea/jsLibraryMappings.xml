@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="PROJECT" libraries="{jquery, jquery-migrate, lazy-images, mediaelement-and-player, sweetalert2.all, toastr}" />
+  </component>
+</project>
